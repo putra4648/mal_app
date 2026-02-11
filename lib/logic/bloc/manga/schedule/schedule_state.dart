@@ -14,7 +14,7 @@ class ScheduleLoading extends ScheduleState {}
 class ScheduleLoadedSuccess extends ScheduleState {
   final List<Manga> mangas;
 
-  const ScheduleLoadedSuccess({this.mangas});
+  const ScheduleLoadedSuccess({required this.mangas});
 }
 
 class ScheduleFailure extends ScheduleState {}

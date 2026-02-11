@@ -6,7 +6,7 @@ import '../../data/models/models.dart';
 class ShowMangaPage extends StatelessWidget {
   final List<Manga> listManga;
 
-  const ShowMangaPage({Key key, @required this.listManga}) : super(key: key);
+  const ShowMangaPage({Key? key, required this.listManga}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GridView.builder(

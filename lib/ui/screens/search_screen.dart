@@ -7,7 +7,8 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  TextEditingController controller;
+  late TextEditingController controller;
+
   @override
   void initState() {
     controller = TextEditingController();
@@ -65,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             },
                             title: Text(
                               manga.title,
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
                         )

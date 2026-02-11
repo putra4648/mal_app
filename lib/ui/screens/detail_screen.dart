@@ -5,7 +5,7 @@ import 'package:manga_app/data/models/models.dart';
 class DetailSearchScreen extends StatelessWidget {
   final Manga anime;
 
-  const DetailSearchScreen({Key key, @required this.anime}) : super(key: key);
+  const DetailSearchScreen({Key? key, required this.anime}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -36,7 +36,7 @@ class DetailSearchScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Synopsis',
-                      style: Theme.of(context).textTheme.headline4),
+                      style: Theme.of(context).textTheme.headlineMedium),
                   Divider(color: Colors.white),
                   Text(anime.synopsis),
                 ],
@@ -48,7 +48,7 @@ class DetailSearchScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Detail Info',
-                      style: Theme.of(context).textTheme.headline4),
+                      style: Theme.of(context).textTheme.headlineMedium),
                   Divider(color: Colors.white),
                   Text('Volumes : ' + anime.volumes.toString()),
                   Text('Chapters: ' + anime.chapters.toString()),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 
 import '../../../../data/models/models.dart';
@@ -10,20 +8,19 @@ part 'character_event.dart';
 part 'character_state.dart';
 
 class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
-  CharacterBloc() : super(CharacterInitial());
+  CharacterBloc() : super(CharacterInitial()) {
+    on<CharacterEvent>((event, emit) async {
+      if (event is CharacterLoadEvent) {
+        emit(CharacterLoading());
 
-  @override
-  Stream<CharacterState> mapEventToState(CharacterEvent event) async* {
-    if (event is CharacterLoadEvent) {
-      yield CharacterLoading();
+        try {
+          final charactersRepo = await CharacterRepository().getCharacter();
 
-      try {
-        final charactersRepo = await CharacterRepository().getCharacter();
-
-        yield CharacterLoadedSuccess(characters: charactersRepo);
-      } catch (_) {
-        yield CharacterFailure();
+          emit(CharacterLoadedSuccess(characters: charactersRepo));
+        } catch (_) {
+          emit(CharacterFailure());
+        }
       }
-    }
+    });
   }
 }

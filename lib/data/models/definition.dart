@@ -17,7 +17,7 @@ class EnumDefinition {
         typeOfString = 'characters';
         break;
       default:
-        typeOfString = null;
+        typeOfString = "";
         break;
     }
     return typeOfString;

@@ -10,7 +10,7 @@ abstract class ConnectivityState extends Equatable {
 class ConnectionLoading extends ConnectivityState {}
 
 class ConnectionResult extends ConnectivityState {
-  final ConnectivityResult connectivityResult;
+  final List<ConnectivityResult> connectivityResult;
 
-  ConnectionResult({this.connectivityResult});
+  ConnectionResult({required this.connectivityResult});
 }

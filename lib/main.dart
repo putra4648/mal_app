@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manga_app/data/models/models.dart';
 import 'package:manga_app/logic/cubit_observer.dart';
 import 'package:manga_app/logic/logic.dart';
 import 'package:manga_app/ui/pages/navigation_page.dart';
@@ -48,15 +49,15 @@ class MyApp extends StatelessWidget {
           ),
           canvasColor: Color(0xff17181c),
           textTheme: TextTheme(
-            headline4: TextStyle(
+            headlineMedium: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
             ),
-            bodyText1: TextStyle(
+            bodyLarge: TextStyle(
               color: Colors.white,
               fontSize: 16,
             ),
-            bodyText2: TextStyle(
+            bodyMedium: TextStyle(
               color: Colors.white,
               fontSize: 16,
             ),
@@ -66,18 +67,24 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
           ),
           appBarTheme: AppBarTheme(
-            color: Color(0xff17181c),
+            backgroundColor: Color(0xff17181c),
             elevation: 0,
-            textTheme: TextTheme(
-              headline6: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             iconTheme: IconThemeData(
               size: 20,
               color: Colors.white,
             ),
+            toolbarTextStyle: TextTheme(
+              titleLarge: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ).bodyMedium,
+            titleTextStyle: TextTheme(
+              titleLarge: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ).titleLarge,
           ),
         ),
         title: 'Material App',
@@ -91,7 +98,7 @@ class MyApp extends StatelessWidget {
             );
           }
           if (name == '/show_more') {
-            final args = settings.arguments;
+            final args = settings.arguments as bool;
             return MaterialPageRoute(
               builder: (context) => ShowMoreScreen(
                 showMangas: args,
@@ -102,7 +109,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => SearchScreen());
           }
           if (name == '/detail_search') {
-            final args = settings.arguments;
+            final args = settings.arguments as Manga;
             return MaterialPageRoute(
                 builder: (context) => DetailSearchScreen(anime: args));
           }

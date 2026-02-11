@@ -9,14 +9,14 @@ class ShowCharacterPage extends StatelessWidget {
   final Size size;
 
   const ShowCharacterPage(
-      {Key key, @required this.size, @required this.listCharacter})
+      {Key? key, required this.size, required this.listCharacter})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider.builder(
       itemCount: listCharacter.take(8).length,
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index, pageViewIndex) {
         return Container(
           height: size.height,
           width: size.width,

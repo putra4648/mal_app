@@ -4,21 +4,25 @@ enum RequestType { GET, POST, DELETE }
 
 class BaseService {
   Future<http.Response> response(RequestType requestType, String url,
-      {dynamic body, Map<String, String> headers}) async {
+      {dynamic body}) async {
     http.Response response;
+    Uri uri = Uri.parse(url);
+    Map<String, String> headers = {"Content-Type": "application/json"};
+
     switch (requestType) {
       case RequestType.GET:
-        response = await http.get(url, headers: headers);
+        response = await http.get(uri, headers: headers);
         break;
       case RequestType.POST:
-        response = await http.post(url, body: body, headers: headers);
+        response = await http.post(uri, body: body, headers: headers);
         break;
       case RequestType.DELETE:
-        response = await http.delete(url, headers: headers);
+        response = await http.delete(uri, headers: headers);
         break;
     }
 
     if (response.statusCode != 200) {
+      print(response.body);
       throw Exception('Error');
     }
     return response;

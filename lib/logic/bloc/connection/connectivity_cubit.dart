@@ -1,23 +1,22 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 part 'connectivity_state.dart';
 
 class ConnectivityCubit extends Cubit<ConnectivityState> {
   final Connectivity connectivity;
-  StreamSubscription connSubscription;
-  ConnectivityCubit({@required this.connectivity})
-      : super(ConnectionLoading()) {
+  late StreamSubscription connSubscription;
+
+  ConnectivityCubit({required this.connectivity}) : super(ConnectionLoading()) {
     connSubscription = connectivity.onConnectivityChanged.listen((conn) {
       connectionResult(conn);
     });
   }
 
-  void connectionResult(ConnectivityResult result) {
+  void connectionResult(List<ConnectivityResult> result) {
     emit(ConnectionLoading());
     emit(ConnectionResult(connectivityResult: result));
     print(result);
@@ -25,7 +24,7 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
 
   @override
   Future<void> close() {
-    connSubscription?.cancel();
+    connSubscription.cancel();
     return super.close();
   }
 }

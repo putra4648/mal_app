@@ -10,13 +10,13 @@ class Character extends Equatable {
   final List<Mangaography> mangaography;
 
   Character({
-    this.id,
-    this.rank,
-    this.title,
-    this.url,
-    this.imageUrl,
-    this.animeography,
-    this.mangaography,
+    required this.id,
+    required this.rank,
+    required this.title,
+    required this.url,
+    required this.imageUrl,
+    required this.animeography,
+    required this.mangaography,
   });
 
   factory Character.fromJson(dynamic json) {
@@ -51,7 +51,7 @@ class Animeography extends Equatable {
   final String name;
   final String url;
 
-  Animeography({this.id, this.name, this.url});
+  Animeography({required this.id, required this.name, required this.url});
 
   factory Animeography.fromJson(dynamic json) {
     return Animeography(
@@ -70,7 +70,7 @@ class Mangaography extends Equatable {
   final String name;
   final String url;
 
-  Mangaography({this.id, this.name, this.url});
+  Mangaography({required this.id, required this.name, required this.url});
 
   factory Mangaography.fromJson(dynamic json) {
     return Mangaography(

@@ -8,7 +8,7 @@ import 'package:manga_app/ui/widgets/custom_style_hook.dart';
 class ScheduleScreen extends StatelessWidget {
   final TabController tabController;
 
-  const ScheduleScreen({Key key, @required this.tabController})
+  const ScheduleScreen({Key? key, required this.tabController})
       : super(key: key);
 
   @override
@@ -23,12 +23,12 @@ class ScheduleScreen extends StatelessWidget {
         style: CustomStyleHook(),
         child: ConvexAppBar(
           controller: tabController,
-          backgroundColor: Theme.of(context).appBarTheme.color,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           elevation: 0,
           style: TabStyle.flip,
           items: [
             TabItem(icon: Icons.home, title: 'Home'),
-            TabItem(icon: FontAwesomeIcons.calendarAlt, title: 'Schedule'),
+            TabItem(icon: FontAwesomeIcons.calendarDays, title: 'Schedule'),
           ],
         ),
       ),
@@ -38,8 +38,8 @@ class ScheduleScreen extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.all(10),
-              child:
-                  Text('Today', style: Theme.of(context).textTheme.headline4),
+              child: Text('Today',
+                  style: Theme.of(context).textTheme.headlineMedium),
             ),
             BlocBuilder<ScheduleBloc, ScheduleState>(
               builder: (context, state) {
@@ -87,7 +87,7 @@ class ScheduleScreen extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         Text(
-                                          schedule.synopsis ?? '',
+                                          schedule.synopsis,
                                           maxLines: 4,
                                           overflow: TextOverflow.ellipsis,
                                         ),

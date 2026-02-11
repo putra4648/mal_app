@@ -14,13 +14,13 @@ class CharacterLoading extends CharacterState {}
 class CharacterLoadedSuccess extends CharacterState {
   final List<Character> characters;
 
-  const CharacterLoadedSuccess({this.characters});
+  const CharacterLoadedSuccess({required this.characters});
 
   CharacterLoadedSuccess copyWith({
-    List<Character> characters,
+    required List<Character> characters,
   }) {
     return CharacterLoadedSuccess(
-      characters: characters ?? this.characters,
+      characters: this.characters,
     );
   }
 

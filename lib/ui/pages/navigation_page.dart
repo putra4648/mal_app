@@ -9,7 +9,8 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  late TabController tabController;
+
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);

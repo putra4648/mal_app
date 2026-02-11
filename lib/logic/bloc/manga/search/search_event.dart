@@ -12,19 +12,19 @@ class SearchInitEvent extends SearchEvent {}
 class SearchEventRequested extends SearchEvent {
   final String search;
 
-  const SearchEventRequested({this.search});
+  const SearchEventRequested({required this.search});
 }
 
 class SearchTypeChanged extends SearchEvent {
   final Type type;
 
-  SearchTypeChanged({this.type});
+  SearchTypeChanged({required this.type});
 
   SearchTypeChanged copyWith({
-    Type type,
+    required Type type,
   }) {
     return SearchTypeChanged(
-      type: type ?? this.type,
+      type: this.type,
     );
   }
 

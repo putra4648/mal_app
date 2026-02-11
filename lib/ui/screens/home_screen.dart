@@ -13,8 +13,8 @@ import '../pages/show_manga_page.dart';
 class HomeScreen extends StatefulWidget {
   final TabController tabController;
   const HomeScreen({
-    Key key,
-    @required this.tabController,
+    Key? key,
+    required this.tabController,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Completer<void> refreshCompleter;
+  late Completer<void> refreshCompleter;
 
   @override
   void initState() {
@@ -39,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
         size: 14,
       ),
       textTheme: TextTheme(
-        headline6: TextStyle(
+        titleLarge: TextStyle(
           color: Colors.white,
           fontSize: 12,
         ),
-        headline5: TextStyle(
+        headlineSmall: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w500,
           fontSize: 16,
@@ -57,12 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
           style: CustomStyleHook(),
           child: ConvexAppBar(
             controller: widget.tabController,
-            backgroundColor: Theme.of(context).appBarTheme.color,
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
             elevation: 0,
             style: TabStyle.flip,
             items: [
               TabItem(icon: Icons.home, title: 'Home'),
-              TabItem(icon: FontAwesomeIcons.calendarAlt, title: 'Schedule'),
+              TabItem(icon: FontAwesomeIcons.calendarDays, title: 'Schedule'),
             ],
           ),
         ),
@@ -81,9 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
         body: BlocConsumer<ConnectivityCubit, ConnectivityState>(
           listener: (context, state) {
             if (state is ConnectionResult) {
-              if (state.connectivityResult.index == 2) {
+              if (state.connectivityResult.contains(ConnectivityResult.none)) {
                 // listWidgetBody.clear();
-                Scaffold.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
                       'No Connection',
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Loading();
             }
             if (state is ConnectionResult) {
-              if (state.connectivityResult.index != 2) {
+              if (!state.connectivityResult.contains(ConnectivityResult.none)) {
                 return SingleChildScrollView(
                   child: Column(
                     children: [
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocConsumer<CharacterBloc, CharacterState>(
         listener: (context, state) {
           if (state is CharacterLoadedSuccess) {
-            refreshCompleter?.complete();
+            refreshCompleter.complete();
             refreshCompleter = Completer();
           }
         },
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context, state) {
           if (state is SeasonLoadedSuccess) {
             // context.read<CharacterBloc>().add(CharacterInitEvent());
-            refreshCompleter?.complete();
+            refreshCompleter.complete();
             refreshCompleter = Completer();
           }
         },
@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocConsumer<TopBloc, TopState>(
         listener: (context, state) {
           if (state is TopLoadedSuccess) {
-            refreshCompleter?.complete();
+            refreshCompleter.complete();
             refreshCompleter = Completer();
           }
         },
@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return Loading();
           }
           if (state is TopLoadedSuccess) {
-            return ShowMangaPage(listManga: state.tops);
+            return ShowMangaPage(listManga: state.mangas);
           }
           if (state is TopFailure) {
             return Center(
@@ -215,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildContainerLabel(
-      String labelName, String description, ThemeData theme, bool isShow) {
+      String labelName, String description, ThemeData theme, bool? isShow) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: Column(
@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             labelName,
-            style: theme.textTheme.headline5,
+            style: theme.textTheme.headlineSmall,
           ),
           SizedBox(height: 10),
           Row(

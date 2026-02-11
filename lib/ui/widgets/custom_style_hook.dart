@@ -12,7 +12,7 @@ class CustomStyleHook extends StyleHook {
   double get iconSize => 20;
 
   @override
-  TextStyle textStyle(Color color) {
+  TextStyle textStyle(Color color, String? fontFamily) {
     return TextStyle(
       color: color,
       fontSize: 14,

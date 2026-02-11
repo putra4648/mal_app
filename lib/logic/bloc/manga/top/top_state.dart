@@ -1,31 +1,26 @@
 part of 'top_bloc.dart';
 
 abstract class TopState extends Equatable {
-  const TopState();
+  final List<Manga> mangas;
+
+  const TopState(this.mangas);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [mangas];
 }
 
-class TopInitial extends TopState {}
+class TopInitial extends TopState {
+  TopInitial() : super([]);
+}
 
-class TopLoading extends TopState {}
+class TopLoading extends TopState {
+  TopLoading() : super([]);
+}
 
 class TopLoadedSuccess extends TopState {
-  final List<Manga> tops;
-
-  TopLoadedSuccess({this.tops});
-
-  TopLoadedSuccess copyWith({
-    List<Manga> tops,
-  }) {
-    return TopLoadedSuccess(
-      tops: tops ?? this.tops,
-    );
-  }
-
-  @override
-  List<Object> get props => [tops];
+  TopLoadedSuccess(List<Manga> mangas) : super(mangas);
 }
 
-class TopFailure extends TopState {}
+class TopFailure extends TopState {
+  TopFailure() : super([]);
+}

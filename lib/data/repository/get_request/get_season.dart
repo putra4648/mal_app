@@ -6,10 +6,14 @@ import '../repository.dart';
 
 class SeasonRepository extends BaseService {
   Future<List<Manga>> getMangaSeason() async {
-    final res = await response(RequestType.GET, Url.url.season,
-        headers: {'Content-Type': 'application/json'});
+    final res = await response(
+      RequestType.GET,
+      Url.url.season,
+    );
 
-    final result = jsonDecode(res.body)['anime'] as List;
+
+    final resultMap = jsonDecode(res.body) as Map;
+    final result = resultMap['data'] as List;
 
     return result.take(50).map((e) => Manga.fromJson(e)).toList();
   }

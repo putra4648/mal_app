@@ -1,29 +1,22 @@
 part of 'search_bloc.dart';
 
 abstract class SearchState extends Equatable {
-  const SearchState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class SearchInitial extends SearchState {}
-
-class SearchLoading extends SearchState {}
-
-class SearchLoadedSuccess extends SearchState {
   final List<Manga> mangas;
 
-  const SearchLoadedSuccess({this.mangas});
-
-  SearchLoadedSuccess copyWith({
-    List<Manga> mangas,
-  }) {
-    return SearchLoadedSuccess(
-      mangas: mangas ?? this.mangas,
-    );
-  }
+  const SearchState(this.mangas);
 
   @override
   List<Object> get props => [mangas];
+}
+
+class SearchInitial extends SearchState {
+  SearchInitial(List<Manga> mangas) : super(mangas);
+}
+
+class SearchLoading extends SearchState {
+  SearchLoading(List<Manga> mangas) : super(mangas);
+}
+
+class SearchLoadedSuccess extends SearchState {
+  SearchLoadedSuccess(List<Manga> mangas) : super(mangas);
 }
