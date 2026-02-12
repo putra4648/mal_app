@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:manga_app/data/models/models.dart';
+import 'package:mal/mal.dart';
+import 'package:manga_app/logic/bloc/manga/manga_bloc.dart';
+import 'package:manga_app/logic/bloc/news/news_bloc.dart';
 import 'package:manga_app/logic/cubit_observer.dart';
 import 'package:manga_app/logic/logic.dart';
 import 'package:manga_app/ui/pages/navigation_page.dart';
-import 'package:manga_app/ui/screens/detail_screen.dart';
-import 'package:manga_app/ui/screens/search_screen.dart';
-
-import 'ui/screens/show_more_screen.dart';
+import 'package:manga_app/ui/screens/detail_news.dart';
 
 void main() {
   Bloc.observer = CubitObserver();
@@ -24,71 +23,65 @@ class MyApp extends StatelessWidget {
           create: (context) => ConnectivityCubit(connectivity: Connectivity()),
         ),
         BlocProvider(
-          create: (context) => CharacterBloc()..add(CharacterLoadEvent()),
+          create: (context) => MangaBloc(
+              mangaService: MangaServiceImpl(httpService: HttpService()))
+            ..add(MangaInitialEvent()),
         ),
         BlocProvider(
-          create: (context) => SeasonBloc()..add(SeasonLoadEvent()),
-        ),
-        BlocProvider(
-          create: (context) => SearchBloc()..add(SearchInitEvent()),
-        ),
-        BlocProvider(
-          create: (context) => TopBloc()..add(TopLoadEvent()),
-        ),
-        BlocProvider(
-          create: (context) => ScheduleBloc()..add(ScheduleLoadEvent()),
+          create: (context) => NewsBloc(
+              mangaService: MangaServiceImpl(httpService: HttpService())),
         ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          cardColor: Colors.blueGrey[800],
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: Color(0xff17181c),
-          ),
-          canvasColor: Color(0xff17181c),
-          textTheme: TextTheme(
-            headlineMedium: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
-            bodyLarge: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-            bodyMedium: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-          iconTheme: IconThemeData(
-            size: 20,
-            color: Colors.white,
-          ),
-          appBarTheme: AppBarTheme(
-            backgroundColor: Color(0xff17181c),
-            elevation: 0,
-            iconTheme: IconThemeData(
-              size: 20,
-              color: Colors.white,
-            ),
-            toolbarTextStyle: TextTheme(
-              titleLarge: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ).bodyMedium,
-            titleTextStyle: TextTheme(
-              titleLarge: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ).titleLarge,
-          ),
-        ),
+        // theme: ThemeData(
+        //   cardColor: Colors.blueGrey[800],
+        //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        //   bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        //     backgroundColor: Color(0xff17181c),
+        //   ),
+        //   canvasColor: Color(0xff17181c),
+        //   textTheme: TextTheme(
+        //     headlineMedium: TextStyle(
+        //       color: Colors.white,
+        //       fontWeight: FontWeight.w600,
+        //     ),
+        //     bodyLarge: TextStyle(
+        //       color: Colors.white,
+        //       fontSize: 16,
+        //     ),
+        //     bodyMedium: TextStyle(
+        //       color: Colors.white,
+        //       fontSize: 16,
+        //     ),
+        //   ),
+        //   iconTheme: IconThemeData(
+        //     size: 20,
+        //     color: Colors.white,
+        //   ),
+        //   appBarTheme: AppBarTheme(
+        //     backgroundColor: Color(0xff17181c),
+        //     elevation: 0,
+        //     iconTheme: IconThemeData(
+        //       size: 20,
+        //       color: Colors.white,
+        //     ),
+        //     toolbarTextStyle: TextTheme(
+        //       titleLarge: TextStyle(
+        //         fontSize: 20,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ).bodyMedium,
+        //     titleTextStyle: TextTheme(
+        //       titleLarge: TextStyle(
+        //         fontSize: 20,
+        //         fontWeight: FontWeight.bold,
+        //       ),
+        //     ).titleLarge,
+        //   ),
+        // ),
         title: 'Material App',
-        // home: HomeScreen(),
+        // home: NavigationPage(),
         initialRoute: '/',
         onGenerateRoute: (settings) {
           final name = settings.name;
@@ -97,22 +90,36 @@ class MyApp extends StatelessWidget {
               builder: (context) => NavigationPage(),
             );
           }
-          if (name == '/show_more') {
-            final args = settings.arguments as bool;
+          if (name == '/detail') {
+            final args = settings.arguments as Map<String, String>;
             return MaterialPageRoute(
-              builder: (context) => ShowMoreScreen(
-                showMangas: args,
-              ),
+              builder: (context) {
+                context
+                    .read<NewsBloc>()
+                    .add(NewsGetDetailEvent(args["malId"]!));
+                context
+                    .read<MangaBloc>()
+                    .add(MangaGetDetailEvent(args["malId"]!));
+                return DetailNews(args['title']!);
+              },
             );
           }
-          if (name == '/search') {
-            return MaterialPageRoute(builder: (context) => SearchScreen());
-          }
-          if (name == '/detail_search') {
-            final args = settings.arguments as Manga;
-            return MaterialPageRoute(
-                builder: (context) => DetailSearchScreen(anime: args));
-          }
+          // if (name == '/show_more') {
+          //   final args = settings.arguments as bool;
+          //   return MaterialPageRoute(
+          //     builder: (context) => ShowMoreScreen(
+          //       showMangas: args,
+          //     ),
+          //   );
+          // }
+          // if (name == '/search') {
+          //   return MaterialPageRoute(builder: (context) => SearchScreen());
+          // }
+          // if (name == '/detail_search') {
+          //   final args = settings.arguments as Manga;
+          //   return MaterialPageRoute(
+          //       builder: (context) => DetailSearchScreen(anime: args));
+          // }
           return null;
         },
       ),
