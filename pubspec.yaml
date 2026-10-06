@@ -1,7 +1,7 @@
 name: manga_app
 description: A new Flutter project.
 
-# The following line prevents the package from being accidentally published to
+# The following line prevents the package from being accidentally publish.dart to
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
@@ -18,28 +18,24 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.12.0"
+  sdk: ">3.0.0 <3.12.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  cached_network_image: ^3.4.1
   connectivity_plus: ^6.1.1
   cupertino_icons: ^1.0.8
   equatable: ^2.0.8
   flutter_bloc: ^9.1.1
   font_awesome_flutter: ^10.12.0
-  http: ^1.6.0
-  meta: null
   convex_bottom_bar: ^3.2.0
   carousel_slider: ^5.1.2
-  intl:
+  mal:
+    path: ./packages/mal
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: null
-  mockito: null
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

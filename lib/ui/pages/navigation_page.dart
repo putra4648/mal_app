@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:manga_app/ui/screens/home_screen.dart';
-import 'package:manga_app/ui/screens/schedule_screen.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -13,7 +12,7 @@ class _NavigationPageState extends State<NavigationPage>
 
   @override
   void initState() {
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 1, vsync: this);
     super.initState();
   }
 
@@ -29,7 +28,7 @@ class _NavigationPageState extends State<NavigationPage>
       controller: tabController,
       children: [
         HomeScreen(tabController: tabController),
-        ScheduleScreen(tabController: tabController),
+        // ScheduleScreen(tabController: tabController),
       ],
     );
   }
